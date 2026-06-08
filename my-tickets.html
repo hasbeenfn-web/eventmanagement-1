@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tickets — EventHub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-wrap { max-width: 800px; margin: 0 auto; padding: 48px 40px 80px; }
+    .page-title { font-family: var(--font-head); font-size: 32px; font-weight: 800; margin-bottom: 6px; }
+    .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+    .ticket-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 18px; }
+    .ticket-top { background: linear-gradient(135deg,rgba(192,132,252,0.2),rgba(244,114,182,0.12)); padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+    .t-icon { font-size: 32px; }
+    .t-name { font-family: var(--font-head); font-size: 18px; font-weight: 700; }
+    .t-cat { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+    .ticket-body { padding: 20px 24px; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .t-detail-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .t-detail-val { font-size: 13px; font-weight: 500; }
+    .ticket-footer { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .t-id { font-size: 12px; color: var(--muted); font-family: monospace; }
+    .t-price { font-family: var(--font-head); font-size: 18px; color: var(--accent); font-weight: 700; }
+    .status-badge { padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 500; }
+    .status-upcoming { background: rgba(52,211,153,0.12); color: var(--success); border: 1px solid rgba(52,211,153,0.3); }
+    .status-attended { background: rgba(139,127,176,0.15); color: var(--muted); border: 1px solid var(--border); }
+    @media(max-width:600px){ .page-wrap{padding:32px 16px 60px;} .ticket-body{grid-template-columns:1fr 1fr;} }
+  </style>
+</head>
+<body>
+<div class="glow-tl"></div><div class="glow-br"></div>
+<nav>
+  <a href="index.html" class="nav-logo">EventHub</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="events.html">Events</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="login.html" onclick="localStorage.clear()">Logout</a>
+  </div>
+</nav>
+<div class="page-wrap fade-up">
+  <div class="section-label">My Account</div>
+  <div class="page-title">My Tickets</div>
+  <div class="page-sub">All your booked event tickets in one place.</div>
+  <div class="ticket-card">
+    <div class="ticket-top"><div class="t-icon">💻</div><div><div class="t-name">Tech Conference 2026</div><div class="t-cat">Technology</div></div><div style="margin-left:auto;"><span class="status-badge status-upcoming">Upcoming</span></div></div>
+    <div class="ticket-body">
+      <div><div class="t-detail-label">Date</div><div class="t-detail-val">Jan 15, 2026</div></div>
+      <div><div class="t-detail-label">Time</div><div class="t-detail-val">9:00 AM</div></div>
+      <div><div class="t-detail-label">Venue</div><div class="t-detail-val">Chennai</div></div>
+      <div><div class="t-detail-label">Tickets</div><div class="t-detail-val">1 ticket</div></div>
+      <div><div class="t-detail-label">Payment</div><div class="t-detail-val">UPI</div></div>
+      <div><div class="t-detail-label">Booked on</div><div class="t-detail-val">Dec 10, 2025</div></div>
+    </div>
+    <div class="ticket-footer"><div class="t-id">🎟 BK-A1B2C3</div><div class="t-price">₹999</div></div>
+  </div>
+  <div class="ticket-card">
+    <div class="ticket-top"><div class="t-icon">🎵</div><div><div class="t-name">Music Festival 2026</div><div class="t-cat">Music</div></div><div style="margin-left:auto;"><span class="status-badge status-upcoming">Upcoming</span></div></div>
+    <div class="ticket-body">
+      <div><div class="t-detail-label">Date</div><div class="t-detail-val">Feb 20, 2026</div></div>
+      <div><div class="t-detail-label">Time</div><div class="t-detail-val">4:00 PM</div></div>
+      <div><div class="t-detail-label">Venue</div><div class="t-detail-val">Mumbai</div></div>
+      <div><div class="t-detail-label">Tickets</div><div class="t-detail-val">2 tickets</div></div>
+      <div><div class="t-detail-label">Payment</div><div class="t-detail-val">Credit Card</div></div>
+      <div><div class="t-detail-label">Booked on</div><div class="t-detail-val">Dec 15, 2025</div></div>
+    </div>
+    <div class="ticket-footer"><div class="t-id">🎟 BK-D4E5F6</div><div class="t-price">₹1,198</div></div>
+  </div>
+  <div class="ticket-card">
+    <div class="ticket-top"><div class="t-icon">🎨</div><div><div class="t-name">Art Exhibition 2025</div><div class="t-cat">Art & Culture</div></div><div style="margin-left:auto;"><span class="status-badge status-attended">Attended</span></div></div>
+    <div class="ticket-body">
+      <div><div class="t-detail-label">Date</div><div class="t-detail-val">Nov 5, 2025</div></div>
+      <div><div class="t-detail-label">Time</div><div class="t-detail-val">10:00 AM</div></div>
+      <div><div class="t-detail-label">Venue</div><div class="t-detail-val">Delhi</div></div>
+      <div><div class="t-detail-label">Tickets</div><div class="t-detail-val">1 ticket</div></div>
+      <div><div class="t-detail-label">Payment</div><div class="t-detail-val">Net Banking</div></div>
+      <div><div class="t-detail-label">Booked on</div><div class="t-detail-val">Oct 20, 2025</div></div>
+    </div>
+    <div class="ticket-footer"><div class="t-id">🎟 BK-G7H8I9</div><div class="t-price">₹399</div></div>
+  </div>
+  <div style="text-align:center;margin-top:12px;">
+    <a href="events.html" class="btn btn-outline">+ Book More Events</a>
+  </div>
+</div>
+<footer>
+  <div>© 2026 EventHub.</div>
+  <div style="display:flex;gap:24px;"><a href="index.html">Home</a><a href="events.html">Events</a><a href="dashboard.html">Dashboard</a></div>
+</footer>
+</body>
+</html>

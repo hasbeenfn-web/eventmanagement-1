@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — EventHub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .dash-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 64px); }
+    .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 28px 16px; }
+    .sidebar-section { font-size: 10px; font-weight: 600; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.1em; margin: 20px 0 8px 10px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 2px; transition: all 0.2s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .sidebar-link.active { background: rgba(192,132,252,0.12); color: var(--accent); }
+    .sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
+    .user-box { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 24px; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 8px; }
+    .user-name { font-size: 13px; font-weight: 600; }
+    .user-email { font-size: 11px; color: var(--muted); }
+    .main-content { padding: 36px; overflow-y: auto; }
+    .welcome-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
+    .welcome-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+    .welcome-sub { font-size: 13px; color: var(--muted); }
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+    .stat-icon { font-size: 22px; margin-bottom: 10px; }
+    .stat-num { font-family: var(--font-head); font-size: 26px; font-weight: 700; }
+    .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-h { font-family: var(--font-head); font-size: 18px; font-weight: 600; }
+    .ticket-list { display: flex; flex-direction: column; gap: 12px; }
+    .ticket-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+    .ticket-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .ticket-info { flex: 1; }
+    .ticket-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .ticket-meta { font-size: 12px; color: var(--muted); }
+    .ticket-right { text-align: right; }
+    .ticket-price { font-family: var(--font-head); font-size: 15px; color: var(--accent); }
+    .ticket-id { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 14px; }
+    .uc-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--text); transition: border-color 0.2s; }
+    .uc-card:hover { border-color: rgba(192,132,252,0.35); }
+    .uc-banner { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+    .uc-body { padding: 14px; }
+    .uc-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+    .uc-meta { font-size: 11px; color: var(--muted); }
+    @media(max-width:900px){ .dash-layout{grid-template-columns:1fr;} .sidebar{display:none;} .stats-row{grid-template-columns:repeat(2,1fr);} }
+  </style>
+</head>
+<body>
+<div class="glow-tl"></div><div class="glow-br"></div>
+<nav>
+  <a href="index.html" class="nav-logo">EventHub</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="events.html">Events</a>
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="login.html" onclick="localStorage.clear()">Logout</a>
+  </div>
+</nav>
+<div class="dash-layout fade-up">
+  <aside class="sidebar">
+    <div class="user-box">
+      <div class="user-avatar">👤</div>
+      <div class="user-name" id="sidebarName">User</div>
+      <div class="user-email" id="sidebarEmail">user@email.com</div>
+    </div>
+    <div class="sidebar-section">Menu</div>
+    <a href="dashboard.html" class="sidebar-link active"><span class="sidebar-icon">🏠</span> Dashboard</a>
+    <a href="my-tickets.html" class="sidebar-link"><span class="sidebar-icon">🎟</span> My Tickets</a>
+    <a href="events.html" class="sidebar-link"><span class="sidebar-icon">🔍</span> Browse Events</a>
+    <div class="sidebar-section">Account</div>
+    <a href="profile.html" class="sidebar-link"><span class="sidebar-icon">👤</span> Profile</a>
+    <a href="contact.html" class="sidebar-link"><span class="sidebar-icon">💬</span> Support</a>
+    <a href="login.html" class="sidebar-link" onclick="localStorage.clear()"><span class="sidebar-icon">🚪</span> Logout</a>
+  </aside>
+  <main class="main-content">
+    <div class="welcome-row">
+      <div><div class="welcome-title" id="welcomeName">Welcome back! 👋</div><div class="welcome-sub">Here's what's happening with your events.</div></div>
+      <a href="events.html" class="btn">+ Browse Events</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-icon">🎟</div><div class="stat-num">3</div><div class="stat-lbl">Tickets booked</div></div>
+      <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">2</div><div class="stat-lbl">Upcoming events</div></div>
+      <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num">1</div><div class="stat-lbl">Events attended</div></div>
+      <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-num">₹1,897</div><div class="stat-lbl">Total spent</div></div>
+    </div>
+    <div style="margin-bottom:28px;">
+      <div class="section-row"><div class="section-h">My Tickets</div><a href="my-tickets.html" style="font-size:13px;color:var(--accent);text-decoration:none;">View all →</a></div>
+      <div class="ticket-list">
+        <div class="ticket-item"><div class="ticket-icon" style="background:rgba(192,132,252,0.15);">💻</div><div class="ticket-info"><div class="ticket-name">Tech Conference 2026</div><div class="ticket-meta">📅 Jan 15, 2026 · 📍 Chennai</div></div><div class="ticket-right"><div class="ticket-price">₹999</div><div class="ticket-id">BK-A1B2C3</div></div></div>
+        <div class="ticket-item"><div class="ticket-icon" style="background:rgba(244,114,182,0.15);">🎵</div><div class="ticket-info"><div class="ticket-name">Music Festival 2026</div><div class="ticket-meta">📅 Feb 20, 2026 · 📍 Mumbai</div></div><div class="ticket-right"><div class="ticket-price">₹599</div><div class="ticket-id">BK-D4E5F6</div></div></div>
+        <div class="ticket-item"><div class="ticket-icon" style="background:rgba(52,211,153,0.12);">🎨</div><div class="ticket-info"><div class="ticket-name">Art Exhibition 2026</div><div class="ticket-meta">📅 Mar 5, 2026 · 📍 Delhi</div></div><div class="ticket-right"><div class="ticket-price">₹399</div><div class="ticket-id">BK-G7H8I9</div></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-row"><div class="section-h">Recommended Events</div><a href="events.html" style="font-size:13px;color:var(--accent);text-decoration:none;">See all →</a></div>
+      <div class="upcoming-grid">
+        <a href="event-details.html" class="uc-card"><div class="uc-banner" style="background:linear-gradient(135deg,rgba(251,191,36,0.2),rgba(249,115,22,0.15));">🍽️</div><div class="uc-body"><div class="uc-title">Food & Culture Fest</div><div class="uc-meta">📅 Mar 28 · Bangalore · ₹299</div></div></a>
+        <a href="event-details.html" class="uc-card"><div class="uc-banner" style="background:linear-gradient(135deg,rgba(99,102,241,0.25),rgba(139,92,246,0.2));">🏃</div><div class="uc-body"><div class="uc-title">City Marathon 2026</div><div class="uc-meta">📅 Apr 10 · Hyderabad · Free</div></div></a>
+        <a href="event-details.html" class="uc-card"><div class="uc-banner" style="background:linear-gradient(135deg,rgba(192,132,252,0.25),rgba(244,114,182,0.15));">💼</div><div class="uc-body"><div class="uc-title">Startup Summit 2026</div><div class="uc-meta">📅 Apr 22 · Pune · ₹1,499</div></div></a>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  const name=localStorage.getItem('userName')||'User';
+  const email=localStorage.getItem('userEmail')||'user@email.com';
+  document.getElementById('welcomeName').textContent='Welcome back, '+name.split(' ')[0]+'! 👋';
+  document.getElementById('sidebarName').textContent=name;
+  document.getElementById('sidebarEmail').textContent=email;
+</script>
+</body>
+</html>
